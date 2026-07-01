@@ -115,7 +115,7 @@ def main(args):
     outdir = '/g/data/xv83/unseen-projects/outputs/bias/data/era5'
     new_log = cmdprov.new_log()
     
-    for year in np.arange(args.start, 2025):
+    for year in np.arange(args.start, 2026):
         infiles = sorted(glob.glob(f'/g/data/rt52/era5/single-levels/reanalysis/{args.var}/{year}/*.nc'))
         if not infiles:
             raise OSError(f'No input files for variable {args.var} and year {year}')
