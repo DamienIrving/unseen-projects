@@ -11,7 +11,9 @@ file_dir = "/g/data/oi10/replicas/CMIP6/DCPP/CCCma/CanESM5/dcppA-hindcast"
 freq_dict = {
     'pr': 'day',
     'sfcWind': 'day',
-    'tos': 'Omon'
+    'tos': 'Omon',
+    'tasmax': 'day',
+    'psl': 'day',
 }
 
 
@@ -31,10 +33,11 @@ def create_file_list(var):
         infiles2 = glob.glob(f"{file_dir}/s{year}-r??i1p2f1/{freq}/{var}/gn/*/*.nc")
         infiles2.sort()
         infiles = infiles1 + infiles2
-        assert len(infiles) == 20, f"year {year} does not have 20 files"
+        assert len(infiles) == 20, f"year {year} does not have 20 {var} files"
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")
+
 
 def main(args):
     """Run the program"""
@@ -48,3 +51,4 @@ if __name__ == "__main__":
     parser.add_argument("vars", type=str, nargs='*', help="Variables to process")
     args = parser.parse_args()
     main(args)
+

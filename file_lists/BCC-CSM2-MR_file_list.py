@@ -11,7 +11,9 @@ file_dir = "/g/data/oi10/replicas/CMIP6/DCPP/BCC/BCC-CSM2-MR/dcppA-hindcast"
 freq_dict = {
     'pr': 'day',
     'sfcWind': 'day',
-    'tos': 'Omon'
+    'tos': 'Omon',
+    'tasmax': 'day',
+    'psl': 'day'
 }
 
 
@@ -24,8 +26,10 @@ def create_file_list(var):
     except OSError:
         pass
 
+    freq = freq_dict[var]
+
     for year in np.arange(1961, 2014 + 1):
-        infiles = glob.glob(f"{file_dir}/s{year}-r*i1p1f1/day/{var}/gn/*/*.nc")
+        infiles = glob.glob(f"{file_dir}/s{year}-r*i1p1f1/{freq}/{var}/gn/*/*.nc")
         infiles.sort()
         assert len(infiles) == 8, f"year {year} pr does not have 8 files"
         with open(outfile_name, "a") as outfile:

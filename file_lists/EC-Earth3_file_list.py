@@ -11,7 +11,9 @@ file_dir = "/g/data/oi10/replicas/CMIP6/DCPP/EC-Earth-Consortium/EC-Earth3/dcppA
 freq_dict = {
     'pr': 'day',
     'sfcWind': 'day',
-    'tos': 'Omon'
+    'tos': 'Omon',
+    'tasmax': 'day',
+    'psl': 'day',
 }
 
 
@@ -36,7 +38,7 @@ def create_file_list(var):
         infiles4 = glob.glob(f"{file_dir}/s{year}-r10i2p1f1/day/{var}/gr/*/*.nc")
         infiles4.sort()
         infiles = infiles1 + infiles2 + infiles3 + infiles4
-        assert len(infiles) == 165, f"year {year} pr does not have 165 (15*11) files"
+        assert len(infiles) == 165, f"year {year} does not have 165 (15*11) {var} files"
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")
