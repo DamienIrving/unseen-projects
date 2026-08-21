@@ -13,7 +13,16 @@ freq_dict = {
     'sfcWind': 'day',
     'tos': 'Omon',
     'tasmax': 'day',
-    'psl': 'day'
+    'psl': 'day',
+    'zg': 'day',
+}
+nfiles_dict = {
+    'pr': 20,
+    'sfcWind': 20,
+    'tos': 10,
+    'tasmax': 20,
+    'psl': 20,
+    'zg': 110,
 }
 
 
@@ -27,7 +36,7 @@ def create_file_list(var):
         pass
 
     freq = freq_dict[var]
-    nfiles = 10 if var == 'tos' else 20
+    nfiles = nfiles_dict[var]
 
     for year in np.arange(1960, 2018 + 1):
         infiles1 = glob.glob(f"{file_dir}/s{year}-r?i1p1f1/{freq}/{var}/gn/*/*.nc")
@@ -35,7 +44,7 @@ def create_file_list(var):
         infiles2 = glob.glob(f"{file_dir}/s{year}-r??i1p1f1/{freq}/{var}/gn/*/*.nc")
         infiles2.sort()
         infiles = infiles1 + infiles2
-        assert len(infiles) == nfiles, f"year {year} does not have {nfiles} {var} files"
+        assert len(infiles) == nfiles, f"year {year} has {len(infiles)} of {nfiles} {var} files"
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")
