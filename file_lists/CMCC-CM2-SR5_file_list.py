@@ -13,7 +13,8 @@ freq_dict = {
     'sfcWind': 'day',
     'tos': 'Omon',
     'tasmax': 'day',
-    'psl': 'day'
+    'psl': 'day',
+    'zg500': 'AERday',
 }
 nrun_dict = {
     'pr': 10,
@@ -21,6 +22,7 @@ nrun_dict = {
     'tos': 10,
     'tasmax': 20,
     'psl': 10,
+    'zg500': 20,
 }
 
 
@@ -40,9 +42,11 @@ def create_file_list(var):
     for year in np.arange(1960, 2020):
         infiles1 = glob.glob(f"{file_dir}/s{year}-r?i1p1f1/{freq}/{var}/gn/{version}/*.nc")
         infiles1.sort()
-        infiles2 = glob.glob(f"{file_dir}/s{year}-r??i1p1f1/{freq}/{var}/gn/{version}/*.nc")
+        infiles2 = glob.glob(f"{file_dir}/s{year}-r1?i1p1f1/{freq}/{var}/gn/{version}/*.nc")
         infiles2.sort()
-        infiles = infiles1 + infiles2
+        infiles3 = glob.glob(f"{file_dir}/s{year}-r20i1p1f1/{freq}/{var}/gn/{version}/*.nc")
+        infiles3.sort()
+        infiles = infiles1 + infiles2 + infiles3
         assert len(infiles) == nruns, f"year {year} does not have {nruns} {var} files"
         with open(outfile_name, "a") as outfile:
             for item in infiles:
