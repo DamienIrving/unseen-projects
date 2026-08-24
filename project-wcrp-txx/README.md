@@ -11,13 +11,24 @@ explains the submission requirements.
 
 ### Data processing
 
+Step 1: Calculate the TXx metric from observations:  
 ```
 make metric-obs PROJECT_DETAILS=project-wcrp-txx/txx_config.mk OBS_DETAILS=dataset_makefiles/ERA5-tasmax_config.mk
 ```
 
+Step 2: Calculate the TXx metric for a model:  
 ```
 make metric-forecast MODEL=CanESM5 PROJECT_DETAILS=project-wcrp-txx/txx_config.mk MODEL_DETAILS=dataset_makefiles/CanESM5_dcppA-hindcast_config.mk OBS_DETAILS=dataset_makefiles/ERA5-tasmax_config.mk
 ```
+
+Step 3: Copy a `txx_*.ipynb` notebook and run it for that model.  
+
+Step 4: Calculate the annual tasmax for a model:  
+```make metric-forecast MODEL=MRI-ESM2-0 PROJECT_DETAILS=project-wcrp-txx/config_clim_tasmax.mk MODEL_DETAILS=dataset_makefiles/MRI-ESM2-0_dcppA-hindcast_config.mk OBS_DETAILS=dataset_makefiles/ERA5-tasmax_config.mk
+```
+
+Step 5: Run `climatology.ipynb` to calculate the climatology from the annual data.
+
 
 ### Data availability
 
