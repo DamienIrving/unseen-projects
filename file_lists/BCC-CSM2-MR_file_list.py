@@ -13,7 +13,8 @@ freq_dict = {
     'sfcWind': 'day',
     'tos': 'Omon',
     'tasmax': 'day',
-    'psl': 'day'
+    'psl': 'day',
+    'zg500': 'AERday',
 }
 
 
@@ -32,6 +33,8 @@ def create_file_list(var):
         infiles = glob.glob(f"{file_dir}/s{year}-r*i1p1f1/{freq}/{var}/gn/*/*.nc")
         infiles.sort()
         assert len(infiles) == 8, f"year {year} pr does not have 8 files"
+        #if len(infiles) != 8:
+        #    print(f"year {year} has {len(infiles)} of 8 {var} files")
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")

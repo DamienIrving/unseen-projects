@@ -14,6 +14,7 @@ freq_dict = {
     'tos': 'Omon',
     'tasmax': 'day',
     'psl': 'day',
+    'zg500': 'AERday',
 }
 nfiles_dict = {
     'pr': 165,  # 15*11
@@ -21,6 +22,7 @@ nfiles_dict = {
     'tos': 110,  # 10*11
     'tasmax': 165,
     'psl': 165,
+    'zg500': 165,
 }
 
 
@@ -50,7 +52,9 @@ def create_file_list(var):
                 infiles_i2 = glob.glob(f"{file_dir}/s{year}-r{run}i2p1f1/{freq}/{var}/gr/*/*.nc")
                 infiles_i2.sort()
             infiles = infiles + infiles_i1 + infiles_i2
-        assert len(infiles) == nfiles, f"year {year} does not have {nfiles} {var} files"
+        assert len(infiles) == nfiles, f"year {year} has {len(infiles)} of {nfiles} {var} files"
+        #if len(infiles) != nfiles:
+        #    print(f"year {year} has {len(infiles)} of {nfiles} {var} files")
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")

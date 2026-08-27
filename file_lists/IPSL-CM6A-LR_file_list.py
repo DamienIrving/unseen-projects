@@ -13,7 +13,8 @@ freq_dict = {
     'sfcWind': 'day',
     'tos': 'Omon',
     'tasmax': 'day',
-    'psl': 'day'
+    'psl': 'day',
+    'zg500': 'AERday'
 }
 
 
@@ -35,7 +36,9 @@ def create_file_list(var):
         infiles2 = glob.glob(f"{file_dir}/s{year}-r??i1p1f1/{freq}/{var}/{grid}/v20200108/*.nc")
         infiles2.sort()
         infiles = infiles1 + infiles2
-        assert len(infiles) == 10, f"year {year} does not have 10 {var} files"
+        assert len(infiles) == 10, f"year {year} has {len(infiles)} of 10 {var} files"
+        #if len(infiles) != 10:
+        #    print(f"year {year} has {len(infiles)} of 10 {var} files")
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")

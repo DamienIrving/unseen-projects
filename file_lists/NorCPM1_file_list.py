@@ -13,7 +13,8 @@ freq_dict = {
     'sfcWind': 'day',
     'tasmax': 'day',
     'psl': 'day',
-    'tos': 'Omon'
+    'tos': 'Omon',
+    'zg500': 'AERday'
 }
 
 
@@ -37,6 +38,8 @@ def create_file_list(var):
             infiles_i2.sort()
             infiles = infiles + infiles_i1 + infiles_i2
         assert len(infiles) == 20, f"year {year} does not have 20 {var} files"
+        #if len(infiles) != 20:
+        #    print(f"year {year} has {len(infiles)} of 20 {var} files")
         with open(outfile_name, "a") as outfile:
             for item in infiles:
                 outfile.write(f"{item}\n")
