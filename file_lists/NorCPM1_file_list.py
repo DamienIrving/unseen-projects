@@ -36,8 +36,8 @@ def create_file_list(var):
             infiles_i1.sort()
             infiles_i2 = glob.glob(f"{file_dir}/s{year}-r{run}i2p1f1/{freq}/{var}/gn/*/*.nc")
             infiles_i2.sort()
-            infiles = infiles + infiles_i1 + infiles_i2
-        assert len(infiles) == 20, f"year {year} does not have 20 {var} files"
+            infiles = infiles + [infiles_i1[-1], ] + [infiles_i2[-1], ]
+        assert len(infiles) == 20, f"year {year} has {len(infiles)} of 20 {var} files"
         #if len(infiles) != 20:
         #    print(f"year {year} has {len(infiles)} of 20 {var} files")
         with open(outfile_name, "a") as outfile:
