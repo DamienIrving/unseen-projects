@@ -161,12 +161,13 @@ def main(args):
     output_ds.attrs['processing'] = processing_description(args.metric)
     output_ds['model'].attrs['long_name'] = 'Model name'
     output_ds['percentile'].attrs['long_name'] = 'Percentile'
+    output_ds['percentile'].attrs['units'] = '1'
 
     outdir = f'/g/data/xv83/unseen-projects/outputs/wcrp-{args.metric}/data'
-    fname = f'CSIRO_UNSEEN_tier1.nc'
+    fpath = f'{outdir}/CSIRO_UNSEEN_tier1.nc'
     encoding = get_encoding(output_ds)
-    output_ds.to_netcdf(fname, encoding=encoding)
-    print(fname)
+    output_ds.to_netcdf(fpath, encoding=encoding)
+    print(fpath)
 
 
 if __name__ == '__main__':
