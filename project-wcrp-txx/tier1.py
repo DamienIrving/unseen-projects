@@ -1,5 +1,5 @@
 """Script for producing a tier1 data file"""
-import pdb
+
 import argparse
 from datetime import datetime, timezone
 import warnings
@@ -59,6 +59,19 @@ rp_bnds_dict['rx1dy'] = {
 #    'NorCPM1': (),
 }
 
+sample_size_dict = {
+    'BCC-CSM2-MR': 3456,
+    'CanESM5': 9120,
+#    'CMCC-CM2-SR5': ,
+#    'EC-Earth3': ,
+#    'IPSL-CM6A-LR': ,
+#    'MIROC6': ,
+#    'MPI-ESM1-2-HR': ,
+#    'MRI-ESM2-0': ,
+#    'NorCPM1': 
+}
+
+
 code_url = 'https://github.com/AusClimateService/unseen-projects/tree/master/project-wcrp-txx'
 history_log = cmdprov.new_log(code_url=code_url)
 global_attrs = {
@@ -68,18 +81,31 @@ global_attrs = {
     'data_tier': 'tier1',
     'project': 'WCRP Common Event Attribution and Assessment',
     'contact': 'damien.irving@csiro.au',
+    'source': 'Decadal Climate Prediction Project (DCPP) models',
     'experiment': 'dcppA-hindcast',
-    'references': 'Decadal Climate Prediction Project (https://doi.org/10.5194/gmd-9-3751-2016)',
-#    'processing': '',
+    'references': 'Decadal Climate Prediction Project (DCPP): https://doi.org/10.5194/gmd-9-3751-2016. UNSEEN methodology: https://doi.org/10.1002/met.70118',
     'creation_date': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
     'history': history_log,
 }
 
-event_definitions = {
-    'txx': '39.51 degC'
-#    'rx1day': ''
-}
 
+def processing_description(metric):
+    """Describe the processing for a given metric"""
+    
+    if metric == 'txx':
+        ref_year = 2021
+        event = 'TXx value of 39.51 degC'
+    
+    intro = f'Extreme value analysis was conducted to calculate the return period (rp) for a {event} in the year {ref_year}.'
+    rp1 = 'This involved fitting a non-stationary generalised extreme value (GEV) distribution to the model data using maximum likelihood estimation.'
+    rp2 = f'The cumulative distribution function corresponding to the fitted GEV distribution for the year {ref_year} was then used to calculate rp.'
+    uncert1 = 'The uncertainty bounds (rp_bnds) were determined by parametric bootstrapping, whereby the GEV distribution was repeatedly randomly sampled (with the same sample size as the model data) to obtain 1000 estimates of rp.'
+    uncert2 = 'From these 1000 estimates the 5-95 percentile and 16-84 percentile uncertainty ranges could be calculated.'
+
+    description = f'{intro} {rp1} {rp2} {uncert1} {uncert2}'
+    
+    return description
+    
 
 def get_encoding(ds):
     """Output file encoding."""
@@ -97,35 +123,47 @@ def main(args):
 
     models = list(rp_dict[args.metric].keys())
     rp_values = list(rp_dict[args.metric].values())
-    rp_bnds_values = np.array(list(rp_dict[args.metric].values()))
+    rp_bnds_values = np.array(list(rp_bnds_dict[args.metric].values()))
+    ss_values = list(sample_size_dict.values())
 
     rp_da = xr.DataArray(
         data=rp_values,
+        dims=['model',],
         coords={'model': models,},
         name='rp',
         attrs = {
-            'standard_name': 'return_period',
-            'long_name': f'return period of a {event_definitions[args.metric]} event in the year 2021',
+            'long_name': 'Return period',
             'units': 'years',
         }
     )
-    pdb.set_trace()
     rp_bnds_da = xr.DataArray(
         data=rp_bnds_values,
+        dims=['model', 'percentile'],
         coords={'model': models, 'percentile': percentiles},
         name='rp_bnds',
         attrs = {
-            'long_name': 'return period uncertainty bounds',
+            'long_name': 'Return period uncertainty bounds',
             'units': 'years'
         }
     )
-    output_ds = xr.merge([rp_da, rp_bnds_da])
+    ss_da = xr.DataArray(
+        data=ss_values,
+        dims=['model',],
+        coords={'model': models,},
+        name='n',
+        attrs = {
+            'long_name': 'Sample size',
+            'units': '1',
+        }
+    )
+    output_ds = xr.merge([rp_da, rp_bnds_da, ss_da])
     output_ds.attrs = global_attrs
+    output_ds.attrs['processing'] = processing_description(args.metric)
     output_ds['model'].attrs['long_name'] = 'Model name'
     output_ds['percentile'].attrs['long_name'] = 'Percentile'
 
     outdir = f'/g/data/xv83/unseen-projects/outputs/wcrp-{args.metric}/data'
-    fname = f'{outdir}/CSIRO_UNSEEN_tier1.nc'
+    fname = f'CSIRO_UNSEEN_tier1.nc'
     encoding = get_encoding(output_ds)
     output_ds.to_netcdf(fname, encoding=encoding)
     print(fname)
