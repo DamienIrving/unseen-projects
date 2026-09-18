@@ -12,15 +12,15 @@ import cmdline_provenance as cmdprov
 
 rp_dict = {}
 rp_dict['txx'] = {
-    'BCC-CSM2-MR': 4840,
+    'BCC-CSM2-MR': 4649,
     'CanESM5': 1261,
-#    'CMCC-CM2-SR5': ,
-#    'EC-Earth3': ,
-#    'IPSL-CM6A-LR': ,
-#    'MIROC6': ,
-#    'MPI-ESM1-2-HR': ,
-#    'MRI-ESM2-0': ,
-#    'NorCPM1': 
+    'CMCC-CM2-SR5': 7252962,
+    'EC-Earth3': 2873332,
+    'IPSL-CM6A-LR': 451265,
+    'MIROC6': np.inf,
+    'MPI-ESM1-2-HR': np.inf,
+    'MRI-ESM2-0': np.inf,
+    'NorCPM1': 30843,
 }
 rp_dict['rx1day'] = {
 #    'BCC-CSM2-MR': ,
@@ -37,15 +37,15 @@ rp_dict['rx1day'] = {
 percentiles = [5, 16, 84, 95]
 rp_bnds_dict = {}
 rp_bnds_dict['txx'] = {
-    'BCC-CSM2-MR': (2223, 2943, 10200, 20348),
-    'CanESM5': (904, 1026, 1586, 1870),
-#    'CMCC-CM2-SR5': (),
-#    'EC-Earth3': (),
-#    'IPSL-CM6A-LR': (),
-#    'MIROC6': (),
-#    'MPI-ESM1-2-HR': (),
-#    'MRI-ESM2-0': (),
-#    'NorCPM1': (),
+    'BCC-CSM2-MR': (2238, 2882, 9219, 14842),
+    'CanESM5': (910, 1022, 1589, 1836),
+    'CMCC-CM2-SR5': (380159, 913310, 911513064, np.inf),
+    'EC-Earth3': (167835, 384416, 1106837844, np.inf),
+    'IPSL-CM6A-LR': (55890, 117219, 5309865, 197637458),
+    'MIROC6': (np.inf, np.inf, np.inf, np.inf),
+    'MPI-ESM1-2-HR': (np.inf, np.inf, np.inf, np.inf),
+    'MRI-ESM2-0': (np.inf, np.inf, np.inf, np.inf),
+    'NorCPM1': (13606, 18361, 58842, 94208),
 }
 rp_bnds_dict['rx1dy'] = {
 #    'BCC-CSM2-MR': (),
@@ -60,15 +60,15 @@ rp_bnds_dict['rx1dy'] = {
 }
 
 sample_size_dict = {
-    'BCC-CSM2-MR': 3456,
+    'BCC-CSM2-MR': 4320,
     'CanESM5': 9120,
-#    'CMCC-CM2-SR5': ,
-#    'EC-Earth3': ,
-#    'IPSL-CM6A-LR': ,
-#    'MIROC6': ,
-#    'MPI-ESM1-2-HR': ,
-#    'MRI-ESM2-0': ,
-#    'NorCPM1': 
+    'CMCC-CM2-SR5': 8400,
+    'EC-Earth3': 6960,
+    'IPSL-CM6A-LR': 5130,
+    'MIROC6': 4130,
+    'MPI-ESM1-2-HR': 4720,
+    'MRI-ESM2-0': 2400,
+    'NorCPM1': 10620,
 }
 
 
