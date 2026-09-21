@@ -104,7 +104,7 @@ def ensemble_to_run(model_name, ensnum):
     return run
 
 
-def check_forecast_match(sfcWind_files, start_str, wddx_value, pctl10):
+def check_forecast_match(sfcWind_files, start_str, wddx_value, pctl10, region):
     """Check that the forecast files match the event."""
 
     start_date = datetime.strptime(start_str, '%Y-%m-%d')
@@ -114,7 +114,7 @@ def check_forecast_match(sfcWind_files, start_str, wddx_value, pctl10):
     ds = fileio.open_dataset(
         sfcWind_files,
         sel={'time': slice(start_str, end_str)},
-        shapefile='/g/data/xv83/unseen-projects/outputs/wind-drought/shapefiles/nem-2030.shp',
+        shapefile=f'/g/data/xv83/unseen-projects/outputs/wind-drought/shapefiles/{region}.shp',
         shape_overlap=0.1,
         spatial_agg='weighted_mean', 
     )
@@ -122,7 +122,7 @@ def check_forecast_match(sfcWind_files, start_str, wddx_value, pctl10):
     assert np.all(ds['sfcWind'].values < pctl10), 'Incorrect forecast file'
 
 
-def find_dcpp_data(event_df, model_name, pctl10):
+def find_dcpp_data(event_df, model_name, pctl10, region):
     """Find DCPP data for a dataframe of events.
 
     Parameters
@@ -133,6 +133,8 @@ def find_dcpp_data(event_df, model_name, pctl10):
         Name of DCPP model
     pctl10: float
         10th percentile of area averaged surface wind speed
+    region: {'nem-2030', 'nwis', 'swis', 'se-2030'}
+        Name of spatial region
 
     Returns
     -------
@@ -162,7 +164,7 @@ def find_dcpp_data(event_df, model_name, pctl10):
         wddx_value = row['event_length']
         print(f'{wddx_value} day event starting {start_date}: initialisation year {init_date}, ensemble member {run}')
         sfcWind_files = glob.glob(f'/g/data/oi10/replicas/CMIP6/DCPP/*/{model_name}/dcppA-hindcast/s{init_date}-{run}/day/sfcWind/*/*/*.nc')
-        check_forecast_match(sfcWind_files, start_date, wddx_value, pctl10)
+        check_forecast_match(sfcWind_files, start_date, wddx_value, pctl10, region)
         available_data = glob.glob(f'/g/data/oi10/replicas/CMIP6/DCPP/*/{model_name}/dcppA-hindcast/s{init_date}-{run}/*ay/*')
         for path in available_data:
             print(path)
