@@ -164,7 +164,11 @@ def find_dcpp_data(event_df, model_name, pctl10, region):
         wddx_value = row['event_length']
         print(f'{wddx_value} day event starting {start_date}: initialisation year {init_date}, ensemble member {run}')
         sfcWind_files = glob.glob(f'/g/data/oi10/replicas/CMIP6/DCPP/*/{model_name}/dcppA-hindcast/s{init_date}-{run}/day/sfcWind/*/*/*.nc')
-        check_forecast_match(sfcWind_files, start_date, wddx_value, pctl10, region)
+        try:
+            check_forecast_match(sfcWind_files, start_date, wddx_value, pctl10, region)
+        except AssertionError:
+            print(f'These appear to be the wrong sfcWind files: {sfcWind_files}')
+            continue
         available_data = glob.glob(f'/g/data/oi10/replicas/CMIP6/DCPP/*/{model_name}/dcppA-hindcast/s{init_date}-{run}/*ay/*')
         for path in available_data:
             print(path)
