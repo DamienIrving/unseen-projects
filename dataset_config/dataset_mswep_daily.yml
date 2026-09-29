@@ -1,0 +1,7 @@
+# MSWEP (daily) required metadata changes
+
+rename:
+  precipitation: pr
+
+units:
+  pr: mm
