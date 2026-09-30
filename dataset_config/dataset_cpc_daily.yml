@@ -1,0 +1,5 @@
+# CPC (daily) required metadata changes
+
+rename:
+  precip: pr
+
