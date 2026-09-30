@@ -6,7 +6,7 @@ seeks to identify extreme weather and climate events for coordinated study.
 
 This repository contains the analysis related to our submission
 to the 2022 Pakistan floods case study (Rx5day metric).
-The guidance note
+The [guidance note](https://docs.google.com/document/d/1m47XI9k3ew1b7gJPa87wQzh53fMwakEIgukdT1bZ7Yw/)
 explains the submission requirements.
 
 ### Data processing
