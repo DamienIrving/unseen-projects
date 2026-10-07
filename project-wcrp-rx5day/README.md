@@ -23,7 +23,7 @@ make metric-forecast MODEL=CanESM5 PROJECT_DETAILS=project-wcrp-rx5day/config_rx
 
 Step 3: Calculate the annual climatology for a model:  
 ```
-make metric-forecast MODEL=MRI-ESM2-0 PROJECT_DETAILS=project-wcrp-rx5day/config_clim_psl.mk MODEL_DETAILS=dataset_makefiles/MRI-ESM2-0_dcppA-hindcast_config.mk OBS_DETAILS=dataset_makefiles/MSWEP-pr_config.mk
+make metric-forecast MODEL=MRI-ESM2-0 PROJECT_DETAILS=project-wcrp-rx5day/config_clim_psl.mk MODEL_DETAILS=dataset_makefiles/MRI-ESM2-0_dcppA-hindcast_config.mk OBS_DETAILS=dataset_makefiles/MSWEP-precipitation_config.mk
 ```
 
 Step 4: Copy a `rx5day_*.ipynb` notebook and run it for that model.  
