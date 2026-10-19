@@ -3,3 +3,5 @@
 rename:
   precip: pr
 
+units:
+  pr: "mm day-1"
